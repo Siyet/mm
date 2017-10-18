@@ -1,0 +1,129 @@
+{% extends "store/base.html" %}
+
+{% load static %}
+
+{% block head_title %}
+  {{ product.typePrefix }} {{ product.vendor }} {{ product.model }}
+{% endblock %}
+{% block title %}
+  {{ product.typePrefix }} {{ product.vendor }} {{ product.model }}
+{% endblock %}
+{% block css %}
+    <link href="{% static "css/plugins/slick/slick.css" %}" rel="stylesheet">
+    <link href="{% static "css/plugins/slick/slick-theme.css" %}" rel="stylesheet">
+{% endblock %}
+{% block sidenav %}
+    {% for cat in categories %}
+        {% if not cat.parent and cat.isPublish %}
+            <li {% if product.category.slug == cat.slug or product.category.parent.slug == cat.slug %} class="active" {% endif %}>
+                <a href="{{ cat.get_absolute_url }}">
+                    <img src="{% if cat.image %}{{ cat.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" style="width:20px; height:20px; opacity:0.8;-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);filter: grayscale(100%);filter: gray; /* IE 6-9 */"/>
+                    <span class="nav-label">&nbsp;{{ cat.name }}</span>
+                    {% if cat.children.count %}<span class="fa arrow"></span>{% endif %}
+                </a>
+                {% if cat.children.count %}
+                    <ul class="nav nav-second-level collapse {% if product.category.slug == cat.slug or product.category.parent.slug == cat.slug %} in {% endif %}">
+                    {% for subcat in cat.children.all %}
+                        <li {% if product.category.slug == subcat.slug %} class="active" {% endif %}>
+                            <a href="{{ subcat.get_absolute_url }}">{{ subcat.name }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+{% block breadcrumb %}
+    <li>
+        <a href="/">Главная</a>
+    </li>
+    <li>
+        <a href="{% url "store:ProductList" %}">Каталог товаров</a>
+    </li>
+
+    {% if product.category.parent %}
+        <li>
+            <a href="{{ product.category.parent.get_absolute_url }}">{{ product.category.parent.name }}</a>
+        </li>
+    {% endif %}
+    <li>
+        <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a>
+    </li>
+    <li class="active">
+        <a href="{{ product.get_absolute.url }}">{{ product.typePrefix }} {{ product.vendor }} {{ product.model }}</a>
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox product-detail">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="product-images">
+                                <div>
+                                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no-image.jpg'%}{% endif %}" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+
+                            <h2 class="font-bold m-b-xs">
+                                {{ product.typePrefix }} {{ product.vendor }} {{ product.model }}
+                            </h2>
+                            артикул товара:<span class="text-warning"> <b>{{ product.id }}</b></span>
+                            <div class="m-t-md">
+                                {% if product.inStock %}
+                                <h2 class="product-main-price text-info"><big><b>{{ product.price }}</b>₽ </big></h2> <span class="text-muted"> + <b>{{ product.category.delivery_cost }}₽</b> за доставку по Москве 1 единицы данного товара, + <b>100₽</b> за каждую следущую единицу товара этой же категории. При одновременном заказе товаров из разных категорий, сначала расчитывается доставка наиболее габаритных товаров, все остальные товары: + <b>100₽</b> за единицу. При доставке в МО дополнительно оплачивается километраж от МКАД до адреса доставки по тарифу: <b>25₽/км</b>.</span>
+                                {% else %}
+                                    <h2 class="product-main-price text-warning">Нет в наличии</h2>
+                                {% endif %}
+                            </div>
+
+                            {% if product.description %}
+                                <hr>
+                                <h4>Описание</h4>
+                                <div class="small text-muted">
+                                    {{ product.description | linebreaks}}
+                                </div>
+                            {% endif %}
+                            {% if product.params.count %}
+                                <hr>
+                                <h4>Характеристики</h4>
+                                <table class="table">
+                                    {% for param in product.params.all %}
+                                    <tr>
+                                        <td>{{ param.name }}</td>
+                                        <td style="font-weight: bold">{{ param.value }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                            {% if product.inStock %}
+                                <hr>
+                                <div>
+                                    <form action="{% url 'cart:CartAdd' product.id %}" method="post">
+                                        {{ cart_product_form }}
+                                        {% csrf_token %}
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-cart-plus"></i> Добавить в корзину</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ibox-footer">
+                    <span class="pull-right">
+                        Обновлено - <i class="fa fa-clock-o"></i> {{ product.updated_at }}
+                    </span>
+                    &nbsp;
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

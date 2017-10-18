@@ -1,0 +1,147 @@
+{% extends "store/base.html" %}
+
+{% load static %}
+
+{% block head_title %}
+  Ваша корзина товаров
+{% endblock %}
+{% block title %}
+  Ваша корзина товаров
+{% endblock %}
+{% block sidenav %}
+    {% for cat in categories %}
+        {% if not cat.parent and cat.isPublish %}
+            <li>
+                <a href="{{ cat.get_absolute_url }}">
+                    <img src="{% if cat.image %}{{ cat.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" style="width:20px; height:20px; opacity:0.8;-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);filter: grayscale(100%);filter: gray; /* IE 6-9 */"/>
+                    <span class="nav-label">&nbsp;{{ cat.name }}</span>
+                    {% if cat.children.count %}<span class="fa arrow"></span>{% endif %}
+                </a>
+                {% if cat.children.count %}
+                    <ul class="nav nav-second-level collapse {% if category.slug == cat.slug or category.parent.slug == cat.slug %} in {% endif %}">
+                    {% for subcat in cat.children.all %}
+                        <li {% if category.slug == subcat.slug %} class="active" {% endif %}>
+                            <a href="{{ subcat.get_absolute_url }}">{{ subcat.name }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li>
+        <a href="/">Главная</a>
+    </li>
+    <li>
+        <a href="{% url "store:ProductList" %}">Каталог товаров</a>
+    </li>
+    <li class="active">
+        <a href="{% url "cart:CartDetail" %}">Корзина товаров</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+                <div class="col-md-9">
+
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <span class="pull-right"><strong>{{ cart | length }}</strong> товар(а/ов)</span>
+                            <h5>Перечень товаров в Вашей корзине</h5>
+                        </div>
+                        {% for item in cart %}{% with product=item.product %}
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class="table shoping-cart-table">
+                                    <tbody>
+                                    <tr>
+                                        {% if product %}
+                                        <td width="90">
+                                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" class="img-responsive" />
+                                        </td>
+                                        <td class="desc">
+                                        <p class="small">
+                                                {% if product.category.parent %}{{ product.category.parent.name }}, {% endif %}{{ product.category.name }}
+                                            </p>
+                                            <h3>
+                                                <a href="{{ product.get_absolute_url }}" class="text-navy">
+                                                    {{ product.typePrefix }} {{ product.vendor }} {{ product.model }}
+                                                </a>
+                                            </h3>
+                                            {% if product.description %}
+                                            <div class="small">
+                                                {{ product.description }}
+                                            </div>
+                                            {% endif %}
+                                            <a href="{% url 'cart:CartRemove' product.id %}" class="text-muted"><i class="fa fa-trash"></i> Удалить товар из корзины</a>
+                                        </td>
+                                        <td>{{ item.price }}₽</td>
+                                        <td width="160">
+                                            <form action="{% url "cart:CartAdd" product.id %}" method="post" class="add">
+                                                {{ item.update_quantity_form.quantity }}
+                                                {{ item.update_quantity_form.update }}
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-white" value="Обновить">
+                                            </form>
+                                        </td>
+                                        <td><h4>{{ item.total_price }}₽</h4></td>
+                                        {% else %}
+                                            <td colspan="5" style="text-align:center; vertical-align:middle">Товар "{{ product.typePrefix }} {{ product.vendor }} {{ product.model }}" более не продается нашим магазином. </td>
+                                        {% endif %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endwith %}{% endfor %}
+                        <div class="ibox-content">
+                            <button class="btn btn-primary pull-right" onclick="window.location='{% url "orders:OrderCreate"%}'"><i class="fa fa fa-shopping-cart"></i> Оформить закааз</button>
+                            <button class="btn btn-white" onclick="window.location='{% url "store:ProductList"%}'"><i class="fa fa-arrow-left"></i> Продолжить покупки</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Общая сумма за товар</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <span>
+                                Итого
+                            </span>
+                            <h2 class="font-bold">
+                                {{ cart.get_total_price }}₽
+                            </h2>
+
+                            <hr/>
+                            <span class="text-muted small">
+                                Обратите внимание, что в данную сумму не входит стоимость доставки
+                            </span>
+                            <div class="m-t-sm">
+                                <div class="btn-group">
+                                <a href="{% url "orders:OrderCreate"%}" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>
+                                <a href="{% url "store:ProductList"%}" class="btn btn-white btn-sm"> Продолжить покупки</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Нужна помощь?</h5>
+                        </div>
+                        <div class="ibox-content text-center">
+                            <h3><a href="tel:+79687078787" class="text-navy"><i class="fa fa-phone"></i> +7(968)707-87-87</a></h3>
+                            <span class="small">
+                                Если у Вас возникли вопросы, связанные с приобретением товара у нас на сайте, Вы можете позвонить нам с 10:00 до 20:00, ежедневно, без праздников и выходных.
+                            </span>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

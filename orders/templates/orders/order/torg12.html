@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ №{{ order.id }}</title>
+    <style type="text/css">
+        *{
+            font-family: Arial, sans-serif;
+        }
+        body{
+            width:100%;
+            padding:0;
+            margin:0;
+        }
+        td{
+            vertical-align: top;
+        }
+        .w100{ width:100%;}
+        .fwb{font-weight: bold;}
+        .tcenter{text-align: center;}
+        .tright{text-align: right;}
+        .br{border-right: 1px solid black;}
+        .bb{border-bottom: 1px solid black;}
+        .btb{border-top: 2px solid black;}
+        .blb{border-left: 2px solid black;}
+        .brb{border-right: 2px solid black;}
+        .bbb{border-bottom: 2px solid black;}
+        .order-items{ margin-bottom: 8px;}
+    </style>
+</head>
+<body>
+<h1 class="tcenter">MACROMAG</h1>
+<div class="w100 bbb fwb tcenter"><big>Заказ № {{ order.id }} от {{ order.created }}</big></div>
+<br/>
+<table cellspacing="0" border="0">
+    <tr>
+        <td>Продавец:</td>
+        <td>Интернет-магазин MACROMAG, г. Москва, Профсоюзная, д. 16/10</td>
+    </tr>
+    <tr>
+        <td>Заказчик:</td>
+        <td>{{ order.name }}, {{ order.email }}, {{ order.phone }}, {{ order.address }}</td>
+    </tr>
+</table>
+<br/>
+<table width="100%" cellspacing="0" border="1" class="order-items">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Товары (работы, услуги)</th>
+            <th colspan="2">Количество</th>
+            <th>Цена</th>
+            <th>Сумма</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in order.items.all %}
+        <tr>
+            <td class="tcenter">{{ forloop.counter }}</td>
+            <td>{{ item.product }}</td>
+            <td class="tcenter">{{ item.quantity }}</td>
+            <td class="tcenter">шт</td>
+            <td class="tright">{{ item.price }}</td>
+            <td class="tright">{{ item.get_cost }}</td>
+        </tr>
+        {% endfor %}
+        {% if not order.pickup %}
+        <tr>
+            <td class="tcenter">{{ delivery_num }}</td>
+            <td> Доставка заказа </td>
+            <td class="tcenter">1</td>
+            <td class="tcenter">ед</td>
+            <td class="tright"> {{ order.get_delivery_cost }},00</td>
+            <td class="tright"> {{ order.get_delivery_cost }},00</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+<div class="tright fwb"><big>Итого: {{ order.get_total_cost }}</big></div>
+<br/>
+<br/>
+<p class="fwb">Менеджер _______________________________________________________________________</p>
+
+<p>Телефон: +7(968)707-87-87<br/>
+Сайт: macromag.ru<br/>
+E-mail: info@macromag.ru</p>
+<br/>
+<br/>
+<p class="fwb">Обмен/возврат товара может быть произведён в течении 14 календарных дней после покупки,
+    при условии, что товар не был в эксплуатации, сохранён его товарный вид, потребительские свойства, комплектация,
+    пломбы и фабричная упаковка (за исключением гарантийного случая).<br/>
+    Для обмена/возврата товара необходимо предъявить чек и данную накладную.<br/>
+    Исправность товара и внешний вид мною проверены, претензий не имею.<br/>
+    Подтверждаю получение полной информации о товаре, его функциях, комплектации, гарантии.</p>
+<br/>
+<p class="fwb">Подпись _______________</p>
+</body>
+</html>

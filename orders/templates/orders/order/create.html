@@ -1,0 +1,123 @@
+{% extends "store/base.html" %}
+
+{% load static %}
+
+{% block head_title %}
+  Оформление заказа
+{% endblock %}
+{% block title %}
+  Оформление заказа
+{% endblock %}
+
+{% block sidenav %}
+    {% for cat in categories %}
+        {% if not cat.parent and cat.isPublish %}
+            <li>
+                <a href="{{ cat.get_absolute_url }}">
+                    <img src="{% if cat.image %}{{ cat.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" style="width:20px; height:20px; opacity:0.8;-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);filter: grayscale(100%);filter: gray; /* IE 6-9 */"/>
+                    <span class="nav-label">&nbsp;{{ cat.name }}</span>
+                    {% if cat.children.count %}<span class="fa arrow"></span>{% endif %}
+                </a>
+                {% if cat.children.count %}
+                    <ul class="nav nav-second-level collapse {% if category.slug == cat.slug or category.parent.slug == cat.slug %} in {% endif %}">
+                    {% for subcat in cat.children.all %}
+                        <li {% if category.slug == subcat.slug %} class="active" {% endif %}>
+                            <a href="{{ subcat.get_absolute_url }}">{{ subcat.name }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li>
+        <a href="/">Главная</a>
+    </li>
+    <li>
+        <a href="{% url 'store:ProductList' %}">Каталог товаров</a>
+    </li>
+    <li class="active">
+        <a href="{% url 'orders:OrderCreate'%}">Оформление заказа</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+  <div class="col-lg-6 col-md-12">
+    <div class="ibox">
+        <div class="ibox-title"><h5>Заполните форму</h5></div>
+        <div class="ibox-content">
+            <form id="order-form" class="order-form" action="." method="post">
+                {% for field in form %}
+                    <div class="form-group">
+                        <label style="text-transform: uppercase">{{ field.label_tag }}</label><br/>
+                        {{ field }}
+                        <span class="text-danger">{{ field.error }}</span>
+                    </div>
+                {% endfor %}
+              {% csrf_token %}
+
+            </form>
+        </div>
+        <div class="ibox-footer"><button class="btn btn-primary" type="submit" form="order-form">Сделать заказ</button></div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-6 col-md-12">
+    <div class="ibox">
+        <div class="ibox-title"><h5>Ваш заказ</h5></div>
+        <div class="ibox-content">
+          <ol class="order-info">
+              {% for item in cart  %}
+                <li>
+                  {{ item.product.typePrefix }} {{ item.product.vendor }} {{ item.product.model }} | Количество: {{ item.quantity }} | Цена: {{ item.total_price }}₽
+                </li>
+
+              {% endfor %}
+                <li>Доставка | Цена: <span id="delivery-cost">{{ cart.get_delivery_cost }}</span> | <b><i>В стоимость доставки не входит километраж за пределами МКАД, МКАД оплачивается отдельно: 25 руб./км. Итоговую стоимость доставки сообщает менеджер при подтверждении заказа.</i></b></li>
+            </ol>
+        </div>
+        <div class="ibox-footer">
+
+
+            <h2 class="font-bold" style="margin:0">
+                <small>Итого:</small> <span id="order-price">{{ cart.get_order_price }}</span>₽
+            </h2>
+        </div>
+    </div>
+  <div class="ibox">
+    <div class="ibox-title">
+        <h5>Нужна помощь?</h5>
+    </div>
+    <div class="ibox-content text-center">
+        <h3><a href="tel:+79687078787" class="text-navy"><i class="fa fa-phone"></i> +7(968)707-87-87</a></h3>
+        <span class="small">
+            Если у Вас возникли вопросы, связанные с приобретением товара у нас на сайте, Вы можете позвонить нам с 10:00 до 20:00, ежедневно, без праздников и выходных.
+        </span>
+
+
+    </div>
+    </div>
+  </div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var delivery = $('.order-info li:last');
+    var delivery_cost = parseInt(delivery.find('#delivery-cost').text());
+    var order_price = $('#order-price');
+    $('#id_pickup').change(function(e){
+        if ($(e.target).prop('checked')){
+            order_price.text(parseInt(order_price.text()) - delivery_cost);
+            delivery.hide('fast');
+        } else {
+            order_price.text(parseInt(order_price.text()) + delivery_cost);
+            delivery.show('fast');
+        }
+    });
+});
+</script>
+{% endblock %}

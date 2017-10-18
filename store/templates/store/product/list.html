@@ -1,0 +1,147 @@
+{% extends 'store/base.html' %}
+
+{% load static %}
+
+{% block head_title %}
+    {% if category %} {{ category.name }} {% else %} Каталог товаров {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %} {{ category.name }} {% else %} Каталог товаров {% endif %}
+{% endblock %}
+{% block breadcrumb %}
+    <li>
+        <a href="/">Главная</a>
+    </li>
+    <li>
+        <a href="{% url "store:ProductList" %}">Каталог товаров</a>
+    </li>
+    {% if category %}
+
+        {% if category.parent %}
+            <li>
+                <a href="{{ category.parent.get_absolute_url }}">{{ category.parent.name }}</a>
+            </li>
+        {% endif %}
+        <li class="active">
+            <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+        </li>
+    {% endif %}
+{% endblock %}
+{% block sidenav %}
+
+        {% if category %}
+            {% for cat in categories %}
+                {% if not cat.parent and cat.isPublish %}
+                    <li {% if category.slug == cat.slug or category.parent.slug == cat.slug %} class="active" {% endif %}>
+                        <a href="{{ cat.get_absolute_url }}">
+                            <img src="{% if cat.image %}{{ cat.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" style="width:20px; height:20px; opacity:0.8;-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);filter: grayscale(100%);filter: gray; /* IE 6-9 */"/>
+                            <span class="nav-label">&nbsp;{{ cat.name }}</span>
+                            {% if cat.children.count %}<span class="fa arrow"></span>{% endif %}
+                        </a>
+                        {% if cat.children.count %}
+                            <ul class="nav nav-second-level collapse {% if category.slug == cat.slug or category.parent.slug == cat.slug %} in {% endif %}">
+                            {% for subcat in cat.children.all %}
+                                <li {% if category.slug == subcat.slug %} class="active" {% endif %}>
+                                    <a href="{{ subcat.get_absolute_url }}">{{ subcat.name }}</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+        {% else %}
+            {% for cat in categories %}
+                {% if not cat.parent and cat.isPublish %}
+                    <li>
+                        <a href="{{ cat.get_absolute_url }}">
+                            <img src="{% if cat.image %}{{ cat.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" style="width:20px; height:20px; opacity:0.8;-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);filter: grayscale(100%);filter: gray; /* IE 6-9 */"/>
+                            <span class="nav-label">&nbsp;{{ cat.name }}</span>
+                            {% if cat.children.count %}<span class="fa arrow"></span>{% endif %}
+                        </a>
+                        {% if cat.children.count %}
+                            <ul class="nav nav-second-level collapse {% if category.slug == cat.slug or category.parent.slug == cat.slug %} in {% endif %}">
+                            {% for subcat in cat.children.all %}
+                                <li {% if category.slug == subcat.slug %} class="active" {% endif %}>
+                                    <a href="{{ subcat.get_absolute_url }}">{{ subcat.name }}</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+{% endblock %}
+{% block content %}
+    {% if category %}
+        {% if category.children.count %}
+            <h3>Категории</h3>
+            <div class="row">
+                {% for cat in category.children.all %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="ibox">
+
+                            <div class="ibox-content product-box" onclick="window.location = '{{ cat.get_absolute_url }}'" style="cursor:pointer; text-align:center; overflow: hidden;padding:40px 8px 16px">
+                                <div class="product-desc" style="padding:0; position:absolute; top:16px; right:0; width:100% " >
+                                    <a href="{{ cat.get_absolute_url }}" class="product-name"> {{ cat.name }}</a>
+                                </div>
+                                <img src="{% if cat.image %}{{ cat.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" style="height:200px; max-width: 180px"/>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if products %}
+            <h3>Товары</h3>
+            <div class="items row">
+                {% for product in products %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="ibox">
+                            <div class="ibox-content product-box" onclick="window.location = '{{ product.get_absolute_url }}'" style="cursor:pointer;">
+
+                                <div style="width:100%; text-align:center"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" style="height:200px; max-width: 180px"/></div>
+                                
+                                <div class="product-desc">
+                                    {% if product.inStock %}
+                                        <span class="product-price">
+                                            {{ product.price }}₽
+                                        </span>
+                                    {% else %}
+                                        <span class="product-price" style="background-color: #f8ac59">
+                                            Нет в наличии
+                                        </span>
+                                    {% endif %}
+                                    <small class="text-muted">{{ category.name }}</small>
+                                    <a href="{{ product.get_absolute_url }}" class="product-name">{{ product.typePrefix }} {{ product.vendor }} {{ product.model }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% else %}
+        <h3>Категории</h3>
+        <div class="row">
+            {% for cat in categories %}
+                {% if not cat.parent %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="ibox">
+                        <div class="ibox-content product-box" onclick="window.location = '{{ cat.get_absolute_url }}'" style="cursor:pointer; text-align:center; overflow: hidden;padding:40px 8px 16px">
+                            <div class="product-desc" style="padding:0; position:absolute; top:16px; right:0; width:100% " >
+                                <a href="{{ cat.get_absolute_url }}" class="product-name"> {{ cat.name }}</a>
+                            </div>
+                            <img src="{% if cat.image %}{{ cat.image.url }}{% else %}{% static 'img/no-image.jpg' %}{% endif %}" style="height:200px; max-width: 180px"/>
+                           
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="items row">
+    {% endif %}
+{% endblock %}

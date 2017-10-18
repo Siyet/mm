@@ -1,0 +1,16 @@
+amqp>=1.4.9
+anyjson>=0.3.3
+billiard>=3.3.0.23
+coreapi>=2.1.1
+django-crispy-forms>=1.6.1
+django-filter>=1.0.1
+django-guardian>=1.4.6
+itypes>=1.1.0
+kombu>=3.0.37
+Markdown>=2.6.7
+olefile>=0.43
+pytz>=2016.10
+requests>=2.12.4
+six>=1.10.0
+uritemplate>=3.0.0
+vine>=1.1.3

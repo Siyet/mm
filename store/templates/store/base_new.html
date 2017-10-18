@@ -1,0 +1,199 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <title>{% block title %}{% endblock %}</title>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{% static "css/style_new.css" %}">
+</head>
+
+<body>
+<body cz-shortcut-listen="true">
+<header>
+    <nav class="top-nav red lighten-1">
+        <div class="container">
+            <div class="nav-wrapper">
+                <h5 style="margin:0;line-height:80px">Каталог товаров</h5>
+                <div class="cart">
+                    {% with total_items=cart|length %}
+                        {% if cart|length > 0 %}
+                            <a href="{% url "cart:CartDetail" %}">
+                                {{ total_items }} тов. {{ cart.get_total_price }} руб.
+                            </a>
+                        {% else %}
+                            <i class="material-icons medium">shopping_cart</i>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container"><a href="#" data-activates="nav-mobile"
+                              class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a>
+    </div>
+    <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0px);">
+        <li class="logo"><a id="logo-container" href="/"
+                            class="brand-logo waves-effect waves-teal red-text text-lighten-1"><big>DiEl store</big></a>
+        </li>
+        <li class="search">
+            <div class="search-wrapper card">
+                <input id="search"><i class="material-icons">search</i>
+                <div class="search-results"></div>
+            </div>
+        </li>
+        <li class="bold{% if not category %} active{% endif %}">
+            <a class="waves-effect waves-teal" href="{% url "store:ProductList" %}">Все</a>
+        </li>
+        {% for cat in categories %}
+            {% if not cat.parent and cat.isPublish %}
+                <li class="{% if category and category.slug == cat.slug %}active {% endif %}bold">
+                    <a class="waves-effect waves-teal" href="{{ cat.get_absolute_url }}">{{ cat.name }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">CSS</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="color.html">Цвет</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Components</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="badges.html">Badges</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">JavaScript</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="carousel.html">Carousel</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <li class="bold active"><a href="showcase.html" class="waves-effect waves-teal">Примеры сайтов</a></li>
+    </ul>
+</header>
+<main>
+    <div class="container section">
+        <div class="col s12">
+            <a href="#!" class="breadcrumb red-text text-lighten-1">First</a>
+            <a href="#!" class="breadcrumb red-text text-lighten-1">Second</a>
+            <a href="#!" class="breadcrumb red-text text-lighten-1">Third</a>
+        </div>
+
+    </div>
+    <section id="content" class="container">
+        {% block content %}{% endblock %}
+    </section>
+</main>
+<footer class="page-footer red lighten-1">
+    <div class="container">
+        <div class="row">
+            <div class="col l4 m6 s12">
+                <h5 class="white-text">Контакты</h5>
+                <p class="white-text">Наименование магазина:<br/><b>DieL store</b></p>
+                <p class="white-text"><b><i class="material-icons tiny" style="vertical-align:sub">location_on</i> г.
+                    Москва, ул. Верхняя Красносельская, д. 16Б, стр. 2</b></p>
+                <p class="white-text"><b><i class="material-icons tiny" style="vertical-align:sub">call</i>
+                    +7(499)130-30-65</b></p>
+                <p class="white-text"><b><i class="material-icons tiny" style="vertical-align:sub">mail_outline</i>
+                    dielstore@yandex.ru</b></p>
+                <p class="white-text"><b><i class="material-icons tiny" style="vertical-align:sub">access_time</i> с
+                    10:00 до 20:00 (без выходных)</b></p>
+                <p class="white-text">Наименование юр лица:<br/><b>ООО "КОМСМАРТ"</b></p>
+                <p class="white-text"><b><i class="material-icons tiny" style="vertical-align:sub">mail</i> 125414, г.
+                    Москва, ул. Петрозаводская, д. 8</b></p>
+                <p class="white-text">ОГРН:<br/><b>1157746947808</b></p>
+                <h5 class="white-text">Оплата</h5>
+                <p class="white-text">Оплатить заказ можно <b>только за наличный расчет</b> курьеру при получении
+                    товара.</p>
+            </div>
+            <div class="col l4 m6 s12">
+                <h5 class="white-text">Доставка по Москве и МО</h5>
+                <p class="white-text">Доставка осуществляется <b>в течение 3-х дней</b> с момента оформления заказа.
+                    Доставка возможна по Москве и ближайшему Подмосковью (до <b>30 км от МКАД</b>).
+                    Стоимость доставки <b>от 300 руб. до 2000 руб.</b>, в зависимости от веса и габаритов товара. Выезд
+                    за МКАД оплачивается отдельно: <b>25 руб./км</b>.
+                    Итоговую стоимость доставки сообщает менеджер при подтверждении заказа. Курьер с Вами свяжется за
+                    час до осуществления доставки.</p>
+                <h5 class="white-text">Самовывоза нет!</h5>
+                <h5 class="white-text">Правила обмена и возврата</h5>
+                <p class="white-text">В течение 14 денй с момента покупки Вы можете вернуть товар если он имеет явный
+                    заводской брак! Важно, что были соблюдены следующие требования:</p>
+                <ul class="white-text" style="text-indent:16px">
+                    <li> - Сохранена оригинальная упаковка (полностью)</li>
+                    <li> - Сохранены аксессуары, сопроводительная документация и ПО, расходные материалы, ярлыки и
+                        компоненты товара
+                    </li>
+                    <li> - Не производилась установка товара</li>
+                    <li> - Сохранен кассовый чек</li>
+                    <li> - Товар не имеет следов использования</li>
+                    <li> - Сохранены заводские пломбы</li>
+                </ul>
+            </div>
+
+            <div class="col l4 m6 s12">
+                <h5 class="white-text">Гарантия</h5>
+                <b class="white-text">Вся техника, приобретаемая у нас, имеет официальную гарантию от производителя и
+                    сертифицирована!</b>
+
+                <h5 class="white-text">Не подлежит возврату</h5>
+                <u class="white-text">Cогласно «Закону о защите прав потребителей»:</u>
+                <ul class="white-text">
+                    <li>4. Текстильные товары (хлопчатобумажные, льняные, шелковые, шерстяные и синтетические ткани,
+                        товары из нетканых материалов типа тканей - ленты, тесьма, кружево и другие); <b>кабельная
+                            продукция (провода, шнуры, кабели);</b> строительные и отделочные материалы (линолеум,
+                        пленка, ковровые покрытия и другие) и <b>другие товары, отпускаемые на метраж</b> <i>(п. 4 в
+                            ред. Постановления Правительства РФ от 20.10.1998 N 1222)</i></li>
+                    <li>11. Технически сложные товары бытового назначения, на которые установлены гарантийные сроки
+                        (станки металлорежущие и деревообрабатывающие бытовые; <b>электробытовые машины и приборы;
+                            бытовая радиоэлектронная аппаратура;</b> бытовая вычислительная и множительная техника; <b>фото-
+                            и киноаппаратура; телефонные аппараты</b> и факсимильная аппаратура; <b>электромузыкальные
+                            инструменты;</b> игрушки электронные, <b>бытовое газовое оборудование и устройства</b>) <i>(в
+                            ред. Постановлений Правительства РФ от 20.10.1998 N 1222, от 06.02.2002 N 81)</i></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div class="footer-copyright red darken-1">
+        <div class="container white-text">© 2016-2017 DiEl store. Все права защищены.</div>
+    </div>
+</footer>
+</body>
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.button-collapse').sideNav({'edge': 'left'});
+        function is_touch_device() {
+            try {
+                document.createEvent("TouchEvent");
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        if (is_touch_device()) {
+            $('#nav-mobile').css({overflow: 'auto'});
+        }
+    })
+</script>
+{% block js %}{% endblock %}
+</body>
+</html>

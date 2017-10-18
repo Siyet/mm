@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block head_title %}{% endblock %}</title>
+    <!-- Styles -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet">
+
+    <link href="{% static "css/animate.css" %}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    {% block css %}{% endblock %}
+</head>
+<body>
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header" style="padding:0; text-align:center; ">
+                    <div class="profile-element">
+                        <a href="/" style="font-size:1.6em;"><img style=" background-color: white; width:77%" src="{% static 'img/logo.png' %}"/></a><br/>
+                        <a href="tel:+79687078787"><big><i class="fa fa-phone"></i> +7(968)707-87-87</big></a>
+                    </div>
+                    <div class="logo-element" style="padding: 0 0 6px;">
+                        <a href="/" style="font-size:1.6em;"><img style="background-color: white; width:77%" src="{% static 'img/logo_small.png' %}"/></a>
+                    </div>
+                </li>
+                {% block sidenav %}{% endblock %}
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg" style="overflow:hidden">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                    <form role="search" class="navbar-form-custom" action="search_results.html">
+                        <div class="form-group">
+                            <input type="text" placeholder="Поиск товара..." class="form-control"
+                                   name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        {% with total_items=cart|length %}
+                            {% if cart|length > 0 %}
+                                <a href="{% url 'cart:CartDetail' %}" class="m-r-sm" style="color:#1ab394; padding: 12px 8px"><big>
+                                    <i class="fa fa-shopping-cart fa-lg"></i> {{ total_items }} тов. {{ cart.get_total_price }} руб.
+                                </big></a>
+                            {% else %}
+                                <big><i class="m-r-sm fa fa-shopping-cart fa-lg" style="padding: 12px 8px"></i></big>
+                            {% endif %}
+                        {% endwith %}
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading" style="padding: 0 8px 8px">
+            <div class="col-lg-10">
+                <h2>{% block title %}{% endblock %}</h2>
+                <ol class="breadcrumb" style="margin-bottom:8px">
+                    {% block breadcrumb %}{% endblock %}
+                </ol>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                Based on <strong>Inspinia</strong>
+            </div>
+            <div>
+                <strong>Все права защищены</strong> MacroMAG &copy; 2017
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/plugins/metisMenu/jquery.metisMenu.js" %}"></script>
+<script src="{% static "js/plugins/slimscroll/jquery.slimscroll.min.js" %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static "js/inspinia.js" %}"></script>
+<script src="{% static "js/plugins/pace/pace.min.js" %}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

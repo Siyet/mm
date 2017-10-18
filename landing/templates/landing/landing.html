@@ -1,0 +1,437 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block head_title %}{% endblock %}</title>
+    <!-- Styles -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet">
+
+    <link href="{% static "css/animate.css" %}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+</head>
+<body id="page-top" class="landing-page no-skin-config">
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Скрыть/показать меню</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url "store:ProductList" %}">Каталог товаров</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+{#                        <li><a class="page-scroll" href="#page-top">Акции</a></li>#}
+{#                        <li><a class="page-scroll" href="#page-top">Акции</a></li>#}
+                        <li><a class="page-scroll" href="#features">Почему мы</a></li>
+                        <li><a class="page-scroll" href="#how-buy">Как купить</a></li>
+                        <li><a class="page-scroll" href="#testimonials">Отзывы</a></li>
+                        <li><a class="page-scroll" href="#uslovia">Условия</a></li>
+                        <li><a class="page-scroll" href="#contact">Контакты</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+{#<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">#}
+{#    <ol class="carousel-indicators">#}
+{#        <li data-target="#inSlider" data-slide-to="0" class="active"></li>#}
+{#        <li data-target="#inSlider" data-slide-to="1"></li>#}
+{#    </ol>#}
+{#    <div class="carousel-inner" role="listbox">#}
+{#        <div class="item active">#}
+{#            <div class="container">#}
+{#                <div class="carousel-caption">#}
+{#                    <h1>We craft<br/>#}
+{#                        brands, web apps,<br/>#}
+{#                        and user interfaces<br/>#}
+{#                        we are IN+ studio</h1>#}
+{#                    <p>Lorem Ipsum is simply dummy text of the printing.</p>#}
+{#                    <p>#}
+{#                        <a class="btn btn-lg btn-primary" href="#" role="button">READ MORE</a>#}
+{#                        <a class="caption-link" href="#" role="button">Inspinia Theme</a>#}
+{#                    </p>#}
+{#                </div>#}
+{#                <div class="carousel-image wow zoomIn">#}
+{#                    <img src="{% static "img/landing/laptop.png"%}" alt="laptop"/>#}
+{#                </div>#}
+{#            </div>#}
+{#            <!-- Set background for slide in css -->#}
+{#            <div class="header-back one"></div>#}
+{##}
+{#        </div>#}
+{#        <div class="item">#}
+{#            <div class="container">#}
+{#                <div class="carousel-caption blank">#}
+{#                    <h1>We create meaningful <br/> interfaces that inspire.</h1>#}
+{#                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>#}
+{#                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>#}
+{#                </div>#}
+{#            </div>#}
+{#            <!-- Set background for slide in css -->#}
+{#            <div class="header-back two"></div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">#}
+{#        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>#}
+{#        <span class="sr-only">Previous</span>#}
+{#    </a>#}
+{#    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">#}
+{#        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>#}
+{#        <span class="sr-only">Next</span>#}
+{#    </a>#}
+{#</div>#}
+
+<section id="features" class="container features">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1>Ради Вас<br/> <span class="navy"> мы стараемся стать лучше</span> </h1>
+            <p>Каждый день, 7 дней в неделю, 365 дней в году. </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-center wow fadeInLeft">
+            <div>
+                <img style="width:40px; margin:4px 0" src="{% static "img/landing/rostest.png"%}">
+                <h2>Товар сертифицирован</h2>
+                <p>Вся продуцкия, представленная в нашем магазине, прошла обязательную сертификацию в РОСТЕСТ</p>
+            </div>
+            <div class="m-t-lg">
+                <i class="fa fa-cart-arrow-down features-icon"></i>
+                <h2>Низкие цены</h2>
+                <p>Мы за честную конкуренцию и делаем все возможное, чтобы у нас были самые низкие цены</p>
+            </div>
+        </div>
+        <div class="col-md-6 text-center  wow zoomIn">
+            <img style="margin: 64px auto;" src="{% static "img/logo_invert.png"%}" class="img-responsive">
+        </div>
+        <div class="col-md-3 text-center wow fadeInRight">
+            <div>
+                <i class="fa fa-certificate features-icon"></i>
+                <h2>Гарантия производителя</h2>
+                <p>Вся техника имеет гарантию производителя, при продаже, оформляется гарантийный талон.</p>
+            </div>
+            <div class="m-t-lg">
+                <i class="fa fa-clock-o features-icon"></i>
+                <h2>Мы ценим Ваше время</h2>
+                <p>И поэтому стараемся работать максимально быстро. У нас возможна доставка в день заказа</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+<section id="how-buy" class="timeline gray-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Как мы работаем</h1>
+                <p>Три простых шага для приобретения товара в нашем магазине</p>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon navy-bg">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>Заказ</h2>
+                            <p>Выберите при помощи Яндекс.Маркета или напрямую на сайте товар, сложите в корзину и оформите заказ.
+                            </p>
+                            <a href="#" class="btn btn-xs btn-primary"> Каталог товаров</a>
+                            <span class="vertical-date">Сейчас</span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon navy-bg">
+                            <i class="fa fa-phone"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>Звонок</h2>
+                            <p>В ближайшее время с Вами свяжется наш менеджер для уточнения заказа и времени доставки. Если Вы торопитесь позвоните нам сами. Наши менеджеры работают с 10:00 до 20:00 7 дней в неделю 365 дней в году.</p>
+                            <a href="tel:+79687078787" class="btn btn-xs btn-primary">+7(968)707-87-87</a>
+                            <span class="vertical-date">В ближайшее время<br/><small>c 10:00 до 20:00 7/365</small></span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon navy-bg">
+                            <i class="fa fa-send"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>Получите товар</h2>
+                            <p>В оговоренном ранее месте и времени получите покупаемый товар, проверьте его, и, пожалуйста, оставьте отзыв на Яндекс.Маркете. Нам это нужно, чтобы становится еще лучше. </p>
+                            <a href="#" class="btn btn-xs btn-primary">Оставить отзыв</a>
+                            <span class="vertical-date"> В назначенное время <br/> <small>возможно, в тот же день</small> </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<section id="testimonials" class="navy-section testimonials" style="margin-top: 0">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center wow zoomIn">
+                <i class="fa fa-comment big-icon"></i>
+                <h1>
+                    Что о нас говорят люди
+                </h1>
+                <div class="testimonials-text">
+                    <i>"Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."</i>
+                </div>
+                <small>
+                    <strong>12.02.2014 - Andy Smith</strong>
+                </small>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="comments gray-section" style="margin-top: 0">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Отзывы с Яндекс.Маркета</h1>
+                <p>Отзывы авоматически подгружаются с Яндекс.Маркета и не подвергаются цензуре или модерации со стороны Администрации сайта.</p>
+            </div>
+        </div>
+        <div class="row features-block">
+            <div class="col-lg-4">
+                <div class="bubble">
+                    "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                </div>
+                <div class="comments-avatar">
+                    <a href="" class="pull-left">
+                        <img alt="image" src="{% static "img/landing/avatar3.jpg"%}">
+                    </a>
+                    <div class="media-body">
+                        <div class="commens-name">
+                            Andrew Williams
+                        </div>
+                        <small class="text-muted">Company X from California</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="bubble">
+                    "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                </div>
+                <div class="comments-avatar">
+                    <a href="" class="pull-left">
+                        <img alt="image" src="{% static "img/landing/avatar1.jpg"%}">
+                    </a>
+                    <div class="media-body">
+                        <div class="commens-name">
+                            Andrew Williams
+                        </div>
+                        <small class="text-muted">Company X from California</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="bubble">
+                    "Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                </div>
+                <div class="comments-avatar">
+                    <a href="" class="pull-left">
+                        <img alt="image" src="{% static "img/landing/avatar2.jpg"%}">
+                    </a>
+                    <div class="media-body">
+                        <div class="commens-name">
+                            Andrew Williams
+                        </div>
+                        <small class="text-muted">Company X from California</small>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Подробнее об условиях</h1>
+                <p>оплаты, доставки и о гарантийных обязательствах</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 features-text">
+                <small>Увы, пока, только наличные</small>
+                <h2>Оплата</h2>
+                <i class="fa fa-money big-icon pull-right"></i>
+                <p>Оплатить заказ можно только за наличный расчет курьеру при получении товара.</p>
+            </div>
+            <div class="col-lg-5 features-text">
+                <small>Самовывоза нет!</small>
+                <h2>Доставка</h2>
+                <i class="fa fa-send big-icon pull-right"></i>
+                <p>Доставка осуществляется в течение 3-х дней с момента оформления заказа. Доставка возможна по Москве и Подмосковью. Стоимость доставки от 300 руб. до 2000 руб., в зависимости от веса и габаритов товара. Выезд за МКАД оплачивается отдельно: 25 руб./км. Итоговую стоимость доставки сообщает менеджер при подтверждении заказа. Курьер с Вами свяжется за час до осуществления доставки.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 features-text">
+                <h2>Правила обмена и возврата </h2>
+                <i class="fa fa-arrows-h big-icon pull-right"></i>
+                <p>В течение 14 денй с момента покупки Вы можете вернуть товар если он имеет явный заводской брак! Важно, что были соблюдены следующие требования:</p>
+                <ul>
+                    <li>Сохранена оригинальная упаковка (полностью)</li>
+                    <li>Сохранены аксессуары, сопроводительная документация и ПО, расходные материалы, ярлыки и компоненты товара</li>
+                    <li>Не производилась установка товара</li>
+                    <li>Сохранен кассовый чек</li>
+                    <li>Товар не имеет следов использования</li>
+                    <li>Сохранены заводские пломбы</li>
+                </ul>
+            </div>
+            <div class="col-lg-5 features-text">
+                <h2>Не подлежит возврату</h2>
+                <i class="fa fa-backward big-icon pull-right"></i>
+                <p>Cогласно «Закону о защите прав потребителей»:</p>
+                <ul>
+                    <li>4. Текстильные товары (хлопчатобумажные, льняные, шелковые, шерстяные и синтетические ткани, товары из нетканых материалов типа тканей - ленты, тесьма, кружево и другие); кабельная продукция (провода, шнуры, кабели); строительные и отделочные материалы (линолеум, пленка, ковровые покрытия и другие) и другие товары, отпускаемые на метраж (п. 4 в ред. Постановления Правительства РФ от 20.10.1998 N 1222)</li>
+                    <li>11. Технически сложные товары бытового назначения, на которые установлены гарантийные сроки (станки металлорежущие и деревообрабатывающие бытовые; электробытовые машины и приборы; бытовая радиоэлектронная аппаратура; бытовая вычислительная и множительная техника; фото- и киноаппаратура; телефонные аппараты и факсимильная аппаратура; электромузыкальные инструменты; игрушки электронные, бытовое газовое оборудование и устройства) (в ред. Постановлений Правительства РФ от 20.10.1998 N 1222, от 06.02.2002 N 81)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<section id="contact" class="gray-section contact">
+    <div class="container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Наши контакты</h1>
+            </div>
+        </div>
+        <div class="row m-b-lg">
+            <div class="col-lg-3 col-lg-offset-3">
+                <h4>Магазин</h4>
+                <p class="text-color">Наименование: <b>MACROMAG</b></p>
+                <p class="text-color">Телефон: <b>+7(968)707-87-87</b></p>
+                <p class="text-color">E-mail: <b>info@macromag.ru</b></p>
+                <p class="text-color">Адрес: <b> г. Москва, Профсоюзная, д. 16/10</b></p>
+                <p class="text-color">Часы работы: <b>с 10:00 до 20:00<br/>Каждый день, 7 дней в неделю,<br/>365 дней в году </b></p>
+
+            </div>
+            <div class="col-lg-6">
+                <h4>Юридическое лицо</h4>
+                <p class="text-color">Наименование: <b>ООО "ЭЗРА"</b></p>
+                <p class="text-color">Почтовый адрес: <b>125475, г. Москва, Клинская ул., д. 12</b></p>
+                <p class="text-color">ОГРН: <b>1157746701991</b></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                <p><strong>&copy; 2017 MacroMAG</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mainly scripts -->
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/plugins/metisMenu/jquery.metisMenu.js" %}"></script>
+<script src="{% static "js/plugins/slimscroll/jquery.slimscroll.min.js" %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static "js/inspinia.js" %}"></script>
+<script src="{% static "js/plugins/pace/pace.min.js" %}"></script>
+<script src="{% static "js/plugins/wow/wow.min.js" %}"></script>
+{% block js %}{% endblock %}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+            $("#navbar").collapse('hide');
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+    new WOW().init();
+
+</script>
+
+</body>
+</html>
